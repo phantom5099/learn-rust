@@ -16,3 +16,15 @@
   - 使用`return`关键字返回值
   - 也可以省略`return`关键字，函数的最后一个表达式的值将作为返回值
   - 在箭头（->）后面声明它的类型 `fn foo() -> i32`
+
+## 关于String::from
+- 例如，`String::from`是标准库trait From的实现：
+```rust
+impl From<&str> for String {
+    fn from(s: &str) -> Self {
+        
+    }
+}
+```
+- 可以参与泛型约束
+- 有统一接口
