@@ -179,3 +179,4 @@ println!("{slice3}");
 let s = "hello world";
 ```
 s 的类型是 &str：它是一个指向二进制程序特定位置的 slice。这也就是为什么字符串字面值是不可变的；&str 是一个不可变引用
+与&String的区别：&String指向堆上的String，而字符串字面值指向二进制程序的特定位置
