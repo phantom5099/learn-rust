@@ -99,3 +99,22 @@ let b = async {
 ```
 
 如果使用slow().await呢？首先，需要先将`slow`改写成 `async fn slow()`异步函数才能地调用await，内部`thread::sleep(Duration::from_millis(ms))`语句后还需要加上await让出点，否则slow().await等价于同步调用。加上以后，slow().await就很接近trpl::yield_now().await的效果了，但这种让出不是真的公平，一个 `.await` 能不能真正让出控制权，取决于被 await 的 Future 在 poll 时返回的是 `Pending` 还是 `Ready`,假设上述代码的sleep时间改为0或者很短，让出时间太短，其他任务很可能没来得及被轮询到
+
+## stream
+
+与迭代器区别:
+-时间：迭代器是同步的，而信道接收端是异步的。
+- API：直接处理 Iterator 时，我们会调用同步的 next 方法；而对于 trpl::Receiver 这个具体的 stream 来说，我们调用的是异步的 recv 方法。
+- use trpl::StreamExt;
+
+fn main() {
+    trpl::block_on(async {
+        let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        let iter = values.iter().map(|n| n * 2);
+        let mut stream = trpl::stream_from_iter(iter);
+
+        while let Some(value) = stream.next().await {
+            println!("The value was: {value}");
+        }
+    });
+}
