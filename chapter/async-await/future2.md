@@ -105,7 +105,8 @@ let b = async {
 与迭代器区别:
 -时间：迭代器是同步的，而信道接收端是异步的。
 - API：直接处理 Iterator 时，我们会调用同步的 next 方法；而对于 trpl::Receiver 这个具体的 stream 来说，我们调用的是异步的 recv 方法。
-- use trpl::StreamExt;
+```rust
+use trpl::StreamExt;
 
 fn main() {
     trpl::block_on(async {
@@ -118,3 +119,4 @@ fn main() {
         }
     });
 }
+```
